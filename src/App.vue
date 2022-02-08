@@ -1,9 +1,15 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <ul id="nav">
+      <li>
+        <router-link to="/">Home</router-link>
+      </li>
+      <li>
+        <router-link to="/button">Button</router-link>
+      </li>
+      <li><router-link to="/checkbox">Checkbox</router-link></li>
+    </ul>
+
     <router-view />
   </div>
 </template>
@@ -18,14 +24,16 @@
 }
 
 #nav {
-  padding: 30px;
+  li {
+    display: inline-block;
+    margin-right: 20px;
+    a {
+      font-weight: bold;
+      color: #2c3e50;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+      &.router-link-exact-active {
+        color: #0086c4;
+      }
     }
   }
 }
