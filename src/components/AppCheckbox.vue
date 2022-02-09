@@ -1,5 +1,9 @@
 <template>
-  <div id="app-input" @click.prevent="checkboxClick($event)">
+  <div
+    id="app-input"
+    :class="`${cssNameDisabled}`"
+    @click.prevent="checkboxClick($event)"
+  >
     <input type="checkbox" id="checkbox" :checked="isChecked" :value="value" />
     <span class="checkmark"></span>
     <label for="checkbox" class="no-drag">
@@ -19,11 +23,18 @@ export default {
     modelValue: { default: "" },
     trueValue: { default: true },
     falseValue: { default: false },
+    disabled: { default: false },
   },
   data() {
     return {
       isChecked: this.modelValue ? this.modelValue : false,
     };
+  },
+  computed: {
+    cssNameDisabled: function () {
+      if (this.disabled == true) return "checkbox-disabled";
+      else return "";
+    },
   },
   methods: {
     checkboxClick() {
@@ -109,6 +120,13 @@ export default {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+
+  //checkbox Disabled
+  &.checkbox-disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    filter: grayscale(100);
   }
 }
 
