@@ -3,7 +3,9 @@
     <ul class="ui-list">
       <li class="ui-list-item">
         <h1>Checkbox</h1>
-        <app-checkbox>테스트 체크박스</app-checkbox>
+        <app-checkbox v-model="checked" @change="changedCheck"
+          >테스트 Checkbox</app-checkbox
+        >
       </li>
     </ul>
   </div>
@@ -13,10 +15,17 @@ import AppCheckbox from "../components/AppCheckbox.vue";
 export default {
   name: "ui-page-checkbox",
   data() {
-    return {};
+    return {
+      checked: true,
+    };
   },
   components: {
     AppCheckbox,
+  },
+  methods: {
+    changedCheck: (val) => {
+      console.log(val);
+    },
   },
 };
 </script>
