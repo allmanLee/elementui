@@ -1,12 +1,13 @@
 <template>
   <div
-    id="app-input"
+    class="app-checkbox"
     :class="`${cssNameDisabled}`"
     @click.prevent="checkboxClick($event)"
   >
-    <input type="checkbox" id="checkbox" :checked="isChecked" :value="value" />
+    <input type="checkbox" id="checkbox" :checked="isChecked" :value="label" />
     <span class="checkmark"></span>
     <label for="checkbox" class="no-drag">
+      <span v-if="label !== ''">{{ label }}</span>
       <slot></slot>
     </label>
   </div>
@@ -19,15 +20,16 @@ export default {
     event: "change",
   },
   props: {
-    value: { type: String },
+    value: { type: String, default: "false" },
     modelValue: { default: "" },
     trueValue: { default: true },
     falseValue: { default: false },
     disabled: { default: false },
+    label: { type: String, default: "" },
   },
   data() {
     return {
-      isChecked: this.modelValue ? this.modelValue : false,
+      isChecked: this.modelValue,
     };
   },
   computed: {
@@ -48,11 +50,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-#app-input {
+.app-checkbox {
   display: inline-block;
   box-sizing: border-box;
   position: relative;
-  padding-left: 35px;
+  padding-left: 26px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;

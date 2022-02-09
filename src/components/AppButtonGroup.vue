@@ -8,5 +8,5 @@ export default {
   name: "app-button-group",
 };
 </script>
-<style lang="postcss" scoped>
+<style lang="scss" scoped>
 </style>
