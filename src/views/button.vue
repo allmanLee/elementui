@@ -114,25 +114,12 @@
           </li>
         </ul>
       </li>
-      <li class="ui-list-item">
-        <h1>checkbox</h1>
-        <app-checkbox></app-checkbox>
-      </li>
-      <li class="ui-list-item">
-        <h1>input</h1>
-        <app-input></app-input>
-      </li>
-      <li class="ui-list-item">
-        <h1>select</h1>
-      </li>
     </ul>
   </div>
 </template>
 <script>
 import AppButton from "../components/AppButton.vue";
 import AppButtonGroup from "../components/AppButtonGroup.vue";
-import AppCheckbox from "../components/AppCheckbox.vue";
-import AppInput from "../components/AppInput.vue";
 export default {
   name: "ui-page-checkbox",
   data() {
@@ -143,8 +130,6 @@ export default {
   },
   components: {
     AppButton,
-    AppCheckbox,
-    AppInput,
     AppButtonGroup,
   },
 };
