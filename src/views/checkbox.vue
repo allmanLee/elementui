@@ -10,7 +10,7 @@
         >
       </li>
 
-      <h3 @click="changedCheck">Group</h3>
+      <h3>Group</h3>
       {{
         checkList
       }}
@@ -63,18 +63,12 @@ export default {
       checked: true,
       checked2: true,
       checked3: true,
-      checkList: ["Option B", "Option D"],
+      checkList: ["Option B", "Option D", "Option C", "Option A"],
     };
   },
   components: {
     AppCheckbox,
     AppCheckboxGroup,
-  },
-  methods: {
-    changedCheck: function () {
-      this.checkList.push("Option A");
-      console.log("change");
-    },
   },
 };
 </script>

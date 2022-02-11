@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import EventBus from "@/EventBus.js";
 export default {
   name: "AppCheckbox",
   model: {
@@ -104,6 +105,11 @@ export default {
       setTimeout(() => {
         this.custom = !this.custom;
         this.$emit("change", this.custom);
+        if (this.$parent.modelValue) {
+          EventBus.$emit(this.$parent.$options.componentId, {
+            [this.label]: this.custom,
+          });
+        }
       }, 0);
     },
   },
