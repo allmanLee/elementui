@@ -1,17 +1,26 @@
 <template>
   <div
+    ref="appCheckbox"
     class="app-checkbox"
-    :class="`${cssNameDisabled}`"
-    @click.prevent="checkboxClick($event)"
+    :class="`${cssNameDisabled} ${cssNameBorder} ${cssNameSize}`"
+    @click="checkboxClick"
   >
-    <input type="checkbox" id="checkbox" :checked="isChecked" :value="label" />
+    <input
+      ref="appCheckboxInput"
+      type="checkbox"
+      id="checkbox"
+      :checked="custom"
+      :value="`${label | value}`"
+      @change="checkboxClick"
+    />
     <span class="checkmark"></span>
     <label for="checkbox" class="no-drag">
-      <span v-if="label !== ''">{{ label }}</span>
+      <span>{{ atLabel }}</span>
       <slot></slot>
     </label>
   </div>
 </template>
+
 <script>
 export default {
   name: "AppCheckbox",
@@ -20,31 +29,82 @@ export default {
     event: "change",
   },
   props: {
-    value: { type: String, default: "false" },
-    modelValue: { default: "" },
+    value: { type: String },
+    modelValue: {
+      default: "",
+    },
+    border: { type: Boolean, default: false },
+    size: {
+      validator: (value) => ["medium", "mini", "small"].indexOf(value) !== -1,
+    },
     trueValue: { default: true },
-    falseValue: { default: false },
     disabled: { default: false },
-    label: { type: String, default: "" },
+    label: { default: "" },
+    trueLabel: { type: String },
+    falseLabel: { type: String },
+  },
+  watch: {
+    modelValue: {
+      deep: true,
+      handler(val) {
+        this.custom = val;
+        console.log("appcheckbox: test");
+        this.classModifyBorder();
+      },
+    },
+  },
+  mounted() {
+    this.classModifyBorder();
+    if (!this.$parent.modelValue) {
+      this.custom = this.modelValue;
+    } else {
+      setTimeout(() => (this.custom = this.$refs.appCheckboxInput.checked), 0);
+    }
   },
   data() {
     return {
-      isChecked: this.modelValue,
+      custom: false,
     };
   },
   computed: {
     cssNameDisabled: function () {
-      if (this.disabled == true) return "checkbox-disabled";
+      if (this.disabled === true) return "checkbox-disabled";
       else return "";
+    },
+    cssNameSize: function () {
+      let propSize = this.size;
+      return `button-size-${propSize}`;
+    },
+    cssNameBorder: function () {
+      if (this.border === true) return "checkbox-border";
+      else return "";
+    },
+    atLabel: function () {
+      if (this.label) return this.label;
+      if (this.trueLabel || this.falseLabel) {
+        return this.modelValue ? this.trueLabel : this.falseLabel;
+      } else return undefined;
+    },
+    isChecked() {
+      return this.modelValue === this.trueValue;
     },
   },
   methods: {
-    checkboxClick() {
-      if (this.modelValue !== "") {
-        this.isChecked = this.modelValue;
+    classModifyBorder() {
+      const checkbox = this.$refs.appCheckbox;
+      if (checkbox.classList.contains("checkbox-border")) {
+        if (this.isChecked === true) {
+          checkbox.classList.add("checkbox-border-true");
+        } else {
+          checkbox.classList.remove("checkbox-border-true");
+        }
       }
-      this.isChecked = !this.isChecked;
-      this.$emit("change", this.isChecked ? this.trueValue : this.falseValue);
+    },
+    checkboxClick() {
+      setTimeout(() => {
+        this.custom = !this.custom;
+        this.$emit("change", this.custom);
+      }, 0);
     },
   },
 };
@@ -54,7 +114,7 @@ export default {
   display: inline-block;
   box-sizing: border-box;
   position: relative;
-  padding-left: 26px;
+  padding-left: 38px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -74,8 +134,7 @@ export default {
     pointer-events: none;
     position: absolute;
     box-sizing: border-box;
-    top: 0;
-    left: 0;
+    left: 12px;
     height: 21px;
     width: 21px;
     border-radius: 2px;
@@ -129,6 +188,15 @@ export default {
     pointer-events: none;
     opacity: 0.6;
     filter: grayscale(100);
+  }
+  &.checkbox-border {
+    padding: 12px;
+    padding-left: 38px;
+    border: solid 1px $color-info-tint;
+    border-radius: 4px;
+    &.checkbox-border-true {
+      border: solid 1px $color-primary !important;
+    }
   }
 }
 

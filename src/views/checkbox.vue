@@ -4,23 +4,50 @@
       <li class="ui-list-item">
         <h1>Checkbox</h1>
         {{ checked }}
-        <app-checkbox v-model="checked" @change="changedCheck"
-          >테스트 Checkbox</app-checkbox
-        >
-        <app-checkbox v-model="checked" :disabled="true" @change="changedCheck"
+        <app-checkbox v-model="checked">테스트 Checkbox</app-checkbox>
+        <app-checkbox v-model="checked" :disabled="true"
           >테스트 Checkbox</app-checkbox
         >
       </li>
-      <h3>Type</h3>
+
+      <h3 @click="changedCheck">Group</h3>
+      {{
+        checkList
+      }}
       <ul class="checkbox-list">
         <li>
           <app-checkbox-group v-model="checkList">
-            {{ checkList }}
             <app-checkbox label="Option A"></app-checkbox>
             <app-checkbox label="Option B"></app-checkbox>
             <app-checkbox label="Option C"></app-checkbox>
             <app-checkbox label="Option D"></app-checkbox>
           </app-checkbox-group>
+        </li>
+      </ul>
+
+      <h3>true-label / false-label</h3>
+      {{
+        checked2
+      }}
+      <ul class="checkbox-list">
+        <li>
+          <app-checkbox
+            v-model="checked2"
+            true-label="is True"
+            false-label="is False"
+          ></app-checkbox>
+        </li>
+      </ul>
+
+      <h3>size / border</h3>
+      {{
+        checked3
+      }}
+      <ul class="checkbox-list">
+        <li>
+          <app-checkbox v-model="checked3" :border="true"
+            >BorderBox</app-checkbox
+          >
         </li>
       </ul>
     </ul>
@@ -33,7 +60,9 @@ export default {
   name: "ui-page-checkbox",
   data() {
     return {
-      checked: false,
+      checked: true,
+      checked2: true,
+      checked3: true,
       checkList: ["Option B", "Option D"],
     };
   },
@@ -42,8 +71,9 @@ export default {
     AppCheckboxGroup,
   },
   methods: {
-    changedCheck: (val) => {
-      console.log(val);
+    changedCheck: function () {
+      this.checkList.push("Option A");
+      console.log("change");
     },
   },
 };
