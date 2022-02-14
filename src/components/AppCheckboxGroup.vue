@@ -1,5 +1,5 @@
 <template>
-  <div id="" class="app-checkbox-group" ref="appCheckboxGroup">
+  <div class="app-checkbox-group" ref="appCheckboxGroup">
     <slot></slot>
   </div>
 </template>
@@ -17,6 +17,23 @@ export default {
       default: () => {
         return [];
       },
+    },
+    min: {
+      type: Number,
+    },
+    max: {
+      type: Number,
+    },
+    size: {
+      validator: (value) => ["medium", "small", "mini"].indexOf(value) !== -1,
+    },
+    textColor: {
+      type: String,
+      default: "#ffffff",
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

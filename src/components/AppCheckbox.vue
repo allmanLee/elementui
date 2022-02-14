@@ -54,8 +54,31 @@ export default {
   created() {
     EventBus.$on(this.$parent.$options.componentId, (val) => {
       this.custom = val;
-      console.log(val);
       this.$emit("change", val);
+      console.log(this.$parent.$options.componentId);
+      this.groupProp = this.$parent.$props;
+    });
+    EventBus.$on(`${this.$parent.$options.componentId}-style`, () => {
+      //최솟값 최대값이 나온경우
+      console.log("min max가 있음");
+      console.log(this.custom);
+      console.log(this.$parent.max);
+      console.log(this.custom.length);
+
+      if (this.custom.length == this.$parent.max) {
+        console.log(this.label);
+        if (!this.custom.includes(this.label)) {
+          console.log(this.label);
+          this.customDisabled = true;
+        }
+      }
+      if (this.custom.length < this.$parent.max) {
+        console.log("보다작아짐");
+        if (!this.custom.includes(this.label)) {
+          console.log(this.label);
+          this.customDisabled = false;
+        }
+      }
     });
   },
   mounted() {
@@ -64,12 +87,19 @@ export default {
   },
   data() {
     return {
-      custom: [], //type: string or Arr
+      custom: [], //type: string or Arr,
+      groupProp: {},
+      customDisabled: false,
     };
   },
   computed: {
     cssNameDisabled: function () {
-      if (this.disabled === true) return "checkbox-disabled";
+      if (
+        this.disabled === true ||
+        this.customDisabled === true ||
+        this.groupProp.disabled
+      )
+        return "checkbox-disabled";
       else return "";
     },
     cssNameIndeterminate: function () {
@@ -94,7 +124,6 @@ export default {
     isChecked() {
       //그룹에 속한 체크인풋이라면 배열을 돌면서 세팅
       if (this.$parent.$options.componentId) {
-        console.log(this.custom.includes(this.label));
         return this.custom.includes(this.label);
       } else {
         return this.modelValue === this.trueValue;
@@ -112,14 +141,22 @@ export default {
         }
       }
     },
+    minMaxOption() {
+      if (this.groupProp.max || this.groupProp.min) {
+        // EventBus.$emit(`${this.$parent.$options.componentId}`);
+        EventBus.$emit(`${this.$parent.$options.componentId}-style`);
+      }
+    },
     updatedCheckbox() {
       let isChecked = this.modelValue === "" ? this.modelValue : this.isChecked;
+
       if (this.$parent.modelValue) {
         if (!isChecked) {
           this.custom.push(this.label);
         } else {
           this.custom.splice(this.custom.indexOf(this.label), 1);
         }
+        this.minMaxOption();
       } else {
         isChecked = !isChecked;
         this.$emit("change", isChecked);

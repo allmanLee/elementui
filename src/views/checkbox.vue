@@ -16,7 +16,7 @@
       }}
       <ul class="checkbox-list">
         <li>
-          <app-checkbox-group v-model="checkList">
+          <app-checkbox-group v-model="checkList" :max="2" :min="1">
             <app-checkbox
               v-for="op of options"
               :key="op"
@@ -95,7 +95,7 @@ export default {
       checked2: true,
       checked3: true,
       checkAll: true,
-      checkList: ["Option B", "Option C", "Option A"],
+      checkList: ["Option B", "Option A"],
       cities: [...cityOptions],
       options: ["Option A", "Option B", "Option C", "Option D"],
       checkedCities: ["Shanghai", "Beijing"],
@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
+      this.checkedCities = val ? [...cityOptions] : [];
       this.isIndeterminate = false;
     },
     handleCheckedCitiesChange(value) {
