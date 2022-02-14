@@ -17,10 +17,11 @@
       <ul class="checkbox-list">
         <li>
           <app-checkbox-group v-model="checkList">
-            <app-checkbox label="Option A"></app-checkbox>
-            <app-checkbox label="Option B"></app-checkbox>
-            <app-checkbox label="Option C"></app-checkbox>
-            <app-checkbox label="Option D"></app-checkbox>
+            <app-checkbox
+              v-for="op of options"
+              :key="op"
+              :label="op"
+            ></app-checkbox>
           </app-checkbox-group>
         </li>
       </ul>
@@ -59,15 +60,21 @@
           <app-checkbox
             :indeterminate="isIndeterminate"
             v-model="checkAll"
-            @change="handleCheckAllChange(checkAll)"
+            @change="handleCheckAllChange"
             >Check all</app-checkbox
           >
           <div style="margin: 15px 0"></div>
-          {{ checkedCities }}
-          <app-checkbox-group v-model="checkedCities">
-            <app-checkbox v-for="city in cities" :label="city" :key="city">{{
+          <app-checkbox-group
+            v-model="checkedCities"
+            @input="handleCheckedCitiesChange"
+          >
+            <app-checkbox :label="'Shanghai'"></app-checkbox>
+            <app-checkbox :label="'Beijing'"></app-checkbox>
+            <app-checkbox :label="'Guangzhou'"></app-checkbox>
+            <app-checkbox :label="'Shenzhen'"></app-checkbox>
+            <!-- <app-checkboxv-for="city in cities" :label="city">{{
               city
-            }}</app-checkbox>
+            }}</app-checkboxv-for=> -->
           </app-checkbox-group>
         </li>
       </ul>
@@ -88,8 +95,9 @@ export default {
       checked2: true,
       checked3: true,
       checkAll: true,
-      checkList: ["Option B", "Option D", "Option C", "Option A"],
-      cities: cityOptions,
+      checkList: ["Option B", "Option C", "Option A"],
+      cities: [...cityOptions],
+      options: ["Option A", "Option B", "Option C", "Option D"],
       checkedCities: ["Shanghai", "Beijing"],
       isIndeterminate: true,
     };
@@ -100,7 +108,6 @@ export default {
   },
   methods: {
     handleCheckAllChange(val) {
-      console.log(val);
       this.checkedCities = val ? cityOptions : [];
       this.isIndeterminate = false;
     },
