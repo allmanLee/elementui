@@ -3,7 +3,8 @@
     <slot></slot>
   </div>
 </template>
- <script>
+
+<script>
 import EventBus from "@/EventBus.js";
 
 export default {
@@ -18,39 +19,30 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      a: "",
+    };
+  },
   computed: {
-    modelValueSet() {
-      return new Set(this.modelValue);
+    componentId() {
+      return `checkbox-group-${Math.floor(Math.random() * 100000000000)}`;
     },
   },
+  created() {
+    this.createComponentId(this.componentId);
+  },
   mounted() {
-    this.groupCheckboxChange();
-    const uid = this.createUniqueId();
-    this.createComponentId(uid);
-    const customThis = this;
-
-    EventBus.$on(uid, function (val) {
-      const newModel = [...customThis.modelValue];
-      const keyName = Object.keys(val)[0];
-      const isChecked = Object.values(val)[0];
-      let keyIndexOfModel = newModel.indexOf(keyName);
-      console.log(newModel);
-      if (isChecked) {
-        newModel.push(keyName);
-      } else {
-        console.log(newModel.indexOf(keyName));
-        newModel.splice(keyIndexOfModel, 1);
-        console.log(newModel);
-      }
-
-      customThis.$emit("input", newModel);
+    this.EventBus.$on(this.$options.componentId, (val) => {
+      //mounted 시 체크박스 이벤트 버스 구독
+      this.$emit("input", val);
     });
+    this.groupCheckboxChange();
   },
   watch: {
     modelValue: {
       deep: true,
       handler(val) {
-        //this.$emit("input", val);
         this.groupCheckboxChange();
       },
     },
@@ -59,33 +51,11 @@ export default {
     createComponentId(uid) {
       this.$options.componentId = uid;
     },
-    createUniqueId() {
-      //group을 식별하기 위한 unique id 생성
-      const newUID = `checkobox-group-${Math.floor(
-        Math.random() * 100000000000
-      )}`;
-      return newUID;
-    },
-    groupCheckboxChange() {
-      console.log("change checkbox");
-      const children = this.$refs.appCheckboxGroup.children;
-      Array.from(children).forEach((el) => {
-        const elementLabel = el
-          ?.getElementsByTagName("label")[0]
-          ?.getElementsByTagName("span")[0].innerHTML;
 
-        const elementInput = el?.getElementsByTagName("input")[0];
-        for (let item of this.modelValue) {
-          if (elementLabel === item) {
-            elementInput.checked = true;
-            break;
-          } else {
-            elementInput.checked = false;
-          }
-        }
-      });
+    groupCheckboxChange() {
+      console.log(this.modelValue);
+      EventBus.$emit(this.$options.componentId, this.modelValue);
     },
-    testMethod() {},
   },
 };
 </script>

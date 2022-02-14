@@ -9,20 +9,21 @@
       ref="appCheckboxInput"
       type="checkbox"
       id="checkbox"
-      :checked="custom"
+      :checked="isChecked"
       :value="`${label | value}`"
       @change="checkboxClick"
     />
     <span class="checkmark"></span>
     <label for="checkbox" class="no-drag">
       <span>{{ atLabel }}</span>
-      <slot></slot>
+      <slot v-if="!atLabel"></slot>
     </label>
   </div>
 </template>
 
 <script>
 import EventBus from "@/EventBus.js";
+
 export default {
   name: "AppCheckbox",
   model: {
@@ -49,22 +50,28 @@ export default {
       deep: true,
       handler(val) {
         this.custom = val;
-        console.log("appcheckbox: test");
         this.classModifyBorder();
       },
     },
   },
   mounted() {
+    //border style 초기화
+
     this.classModifyBorder();
-    if (!this.$parent.modelValue) {
-      this.custom = this.modelValue;
-    } else {
-      setTimeout(() => (this.custom = this.$refs.appCheckboxInput.checked), 0);
-    }
+    EventBus.$on(this.$parent.$options.componentId, (val) => {
+      console.log(val);
+      this.custom = val;
+      console.log(this.custom);
+    });
+    this.$emit("change", this.custom);
+    // if (!this.$parent.modelValue) {
+    //   this.custom = this.modelValue;
+    // } else {
+    // }
   },
   data() {
     return {
-      custom: false,
+      custom: null, //type: string or Arr
     };
   },
   computed: {
@@ -87,7 +94,12 @@ export default {
       } else return undefined;
     },
     isChecked() {
-      return this.modelValue === this.trueValue;
+      //그룹에 속한 체크인풋이라면 배열을 돌면서 세팅
+      if (this.$parent.$options.componentId) {
+        return 0;
+      } else {
+        return this.modelValue === this.trueValue;
+      }
     },
   },
   methods: {
@@ -102,15 +114,13 @@ export default {
       }
     },
     checkboxClick() {
-      setTimeout(() => {
-        this.custom = !this.custom;
-        this.$emit("change", this.custom);
-        if (this.$parent.modelValue) {
-          EventBus.$emit(this.$parent.$options.componentId, {
-            [this.label]: this.custom,
-          });
-        }
-      }, 0);
+      this.$emit("change", this.model.value);
+
+      if (this.$parent.modelValue) {
+        EventBus.$emit(this.$parent.$options.componentId, {
+          [this.label]: this.custom,
+        });
+      }
     },
   },
 };
