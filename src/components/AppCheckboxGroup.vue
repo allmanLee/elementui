@@ -19,11 +19,6 @@ export default {
       },
     },
   },
-  data() {
-    return {
-      a: "",
-    };
-  },
   computed: {
     componentId() {
       return `checkbox-group-${Math.floor(Math.random() * 100000000000)}`;
@@ -33,10 +28,11 @@ export default {
     this.createComponentId(this.componentId);
   },
   mounted() {
-    this.EventBus.$on(this.$options.componentId, (val) => {
-      //mounted 시 체크박스 이벤트 버스 구독
+    //mounted 시 체크박스 이벤트 버스 구독
+    EventBus.$on(this.$options.componentId, (val) => {
       this.$emit("input", val);
     });
+
     this.groupCheckboxChange();
   },
   watch: {
@@ -53,7 +49,6 @@ export default {
     },
 
     groupCheckboxChange() {
-      console.log(this.modelValue);
       EventBus.$emit(this.$options.componentId, this.modelValue);
     },
   },

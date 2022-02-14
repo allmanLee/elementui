@@ -2,16 +2,15 @@
   <div
     ref="appCheckbox"
     class="app-checkbox"
-    :class="`${cssNameDisabled} ${cssNameBorder} ${cssNameSize}`"
-    @click="checkboxClick"
+    :class="`${cssNameDisabled} ${cssNameBorder} ${cssNameSize} ${cssNameIndeterminate}`"
+    @click="updatedCheckbox"
   >
     <input
       ref="appCheckboxInput"
       type="checkbox"
       id="checkbox"
       :checked="isChecked"
-      :value="`${label | value}`"
-      @change="checkboxClick"
+      @change="updatedCheckbox"
     />
     <span class="checkmark"></span>
     <label for="checkbox" class="no-drag">
@@ -32,9 +31,7 @@ export default {
   },
   props: {
     value: { type: String },
-    modelValue: {
-      default: "",
-    },
+    modelValue: [String, Array, Boolean],
     border: { type: Boolean, default: false },
     size: {
       validator: (value) => ["medium", "mini", "small"].indexOf(value) !== -1,
@@ -44,34 +41,30 @@ export default {
     label: { default: "" },
     trueLabel: { type: String },
     falseLabel: { type: String },
+    indeterminate: { type: Boolean },
   },
   watch: {
     modelValue: {
       deep: true,
       handler(val) {
-        this.custom = val;
         this.classModifyBorder();
       },
     },
   },
+  created() {
+    EventBus.$on(this.$parent.$options.componentId, (val) => {
+      this.custom = val;
+      console.log(val);
+      this.$emit("change", val);
+    });
+  },
   mounted() {
     //border style 초기화
-
     this.classModifyBorder();
-    EventBus.$on(this.$parent.$options.componentId, (val) => {
-      console.log(val);
-      this.custom = val;
-      console.log(this.custom);
-    });
-    this.$emit("change", this.custom);
-    // if (!this.$parent.modelValue) {
-    //   this.custom = this.modelValue;
-    // } else {
-    // }
   },
   data() {
     return {
-      custom: null, //type: string or Arr
+      custom: [], //type: string or Arr
     };
   },
   computed: {
@@ -79,9 +72,14 @@ export default {
       if (this.disabled === true) return "checkbox-disabled";
       else return "";
     },
+    cssNameIndeterminate: function () {
+      if (this.indeterminate === true) {
+        return `checkbox-indeterminate`;
+      } else return "";
+    },
     cssNameSize: function () {
       let propSize = this.size;
-      return `button-size-${propSize}`;
+      return `checkbox-size-${propSize}`;
     },
     cssNameBorder: function () {
       if (this.border === true) return "checkbox-border";
@@ -96,7 +94,8 @@ export default {
     isChecked() {
       //그룹에 속한 체크인풋이라면 배열을 돌면서 세팅
       if (this.$parent.$options.componentId) {
-        return 0;
+        console.log(this.custom.includes(this.label));
+        return this.custom.includes(this.label);
       } else {
         return this.modelValue === this.trueValue;
       }
@@ -113,13 +112,17 @@ export default {
         }
       }
     },
-    checkboxClick() {
-      this.$emit("change", this.model.value);
-
+    updatedCheckbox() {
+      let isChecked = this.modelValue === "" ? this.modelValue : this.isChecked;
       if (this.$parent.modelValue) {
-        EventBus.$emit(this.$parent.$options.componentId, {
-          [this.label]: this.custom,
-        });
+        if (!isChecked) {
+          this.custom.push(this.label);
+        } else {
+          this.custom.splice(this.custom.indexOf(this.label), 1);
+        }
+      } else {
+        isChecked = !isChecked;
+        this.$emit("change", isChecked);
       }
     },
   },
@@ -179,7 +182,7 @@ export default {
     position: absolute;
     display: block;
     opacity: 0;
-    transition: all 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
   }
 
   /* Show the checkmark when checked */
@@ -212,6 +215,34 @@ export default {
     border-radius: 4px;
     &.checkbox-border-true {
       border: solid 1px $color-primary !important;
+    }
+  }
+
+  &.checkbox-indeterminate {
+    input ~ label {
+      color: $color-primary;
+    }
+    input ~ span {
+      background: $color-primary;
+      border: 1px solid $color-primary;
+    }
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: block;
+      opacity: 1;
+      transition: all 0.2s ease-in-out;
+    }
+    span:after {
+      left: 5px;
+      top: 0px;
+      width: 6px;
+      height: 12px;
+      border: solid white;
+      border-width: 0 2px 0px 0;
+      -webkit-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      transform: rotate(90deg);
     }
   }
 }
