@@ -50,12 +50,36 @@
           >
         </li>
       </ul>
+      <h3>Indeterminate</h3>
+      {{
+        checkAll
+      }}
+      <ul class="checkbox-list">
+        <li>
+          <app-checkbox
+            :indeterminate="isIndeterminate"
+            v-model="checkAll"
+            @change="handleCheckAllChange(checkAll)"
+            >Check all</app-checkbox
+          >
+          <div style="margin: 15px 0"></div>
+          {{ checkedCities }}
+          <app-checkbox-group v-model="checkedCities">
+            <app-checkbox v-for="city in cities" :label="city" :key="city">{{
+              city
+            }}</app-checkbox>
+          </app-checkbox-group>
+        </li>
+      </ul>
     </ul>
   </div>
 </template>
 <script>
 import AppCheckbox from "../components/AppCheckbox.vue";
 import AppCheckboxGroup from "../components/AppCheckboxGroup.vue";
+
+const cityOptions = ["Shanghai", "Beijing", "Guangzhou", "Shenzhen"];
+
 export default {
   name: "ui-page-checkbox",
   data() {
@@ -63,12 +87,29 @@ export default {
       checked: true,
       checked2: true,
       checked3: true,
+      checkAll: true,
       checkList: ["Option B", "Option D", "Option C", "Option A"],
+      cities: cityOptions,
+      checkedCities: ["Shanghai", "Beijing"],
+      isIndeterminate: true,
     };
   },
   components: {
     AppCheckbox,
     AppCheckboxGroup,
+  },
+  methods: {
+    handleCheckAllChange(val) {
+      console.log(val);
+      this.checkedCities = val ? cityOptions : [];
+      this.isIndeterminate = false;
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.cities.length;
+    },
   },
 };
 </script>
@@ -82,7 +123,7 @@ h1 {
 h3 {
   font-size: 20px;
   font-weight: 400;
-  margin-top: 20px;
+  margin-top: 60px;
   margin-bottom: 8px;
 }
 .app-checkbox {
