@@ -13,12 +13,20 @@ const routes = [
   {
     path: "/button",
     name: "button",
-    component: () => import(/* webpackChunkName: "button" */ "../views/button.vue"),
+    component: () =>
+      import(/* webpackChunkName: "button" */ "../views/button.vue"),
   },
   {
     path: "/checkbox",
     name: "checkbox",
-    component: () => import(/* webpackChunkName: "checkbox" */ "../views/checkbox.vue"),
+    component: () =>
+      import(/* webpackChunkName: "checkbox" */ "../views/checkbox.vue"),
+  },
+  {
+    path: "/input",
+    name: "input",
+    component: () =>
+      import(/* webpackChunkName: "input" */ "../views/input.vue"),
   },
 ];
 
