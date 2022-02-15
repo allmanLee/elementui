@@ -5,6 +5,9 @@
         <h1>button</h1>
         <h3>Sizes</h3>
         <ul class="button-list">
+          <li>
+            <app-button>default</app-button>
+          </li>
           <li v-for="item of size" :key="item">
             <app-button :size="item">{{ item }}</app-button>
           </li>
@@ -124,7 +127,7 @@ export default {
   name: "ui-page-checkbox",
   data() {
     return {
-      size: ["large", "default", "small"],
+      size: ["medium", "small", "mini"],
       type: ["primary", "success", "warning", "danger", "info", "default"],
     };
   },

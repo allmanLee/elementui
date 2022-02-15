@@ -18,8 +18,7 @@ export default {
   name: "AppButton",
   props: {
     size: {
-      validator: (value) => ["large", "default", "small"].indexOf(value) !== -1,
-      default: "default",
+      validator: (value) => ["medium", "small", "mini"].indexOf(value) !== -1,
     },
     type: {
       validator: (value) =>
@@ -112,13 +111,14 @@ button {
   opacity: 1;
   background: rgb(45, 129, 255);
   border: none;
+  font-size: rem-calc(16px);
   font-weight: 600;
   border-radius: 6px;
   padding: {
-    top: rem-calc(8px);
-    bottom: rem-calc(8px);
-    left: rem-calc(16px);
-    right: rem-calc(16px);
+    top: rem-calc(14px);
+    bottom: rem-calc(14px);
+    left: rem-calc(18px);
+    right: rem-calc(18px);
   }
   span,
   div {
@@ -135,8 +135,8 @@ button {
     filter: grayscale(0.2);
     transition: all 0.02s ease-in-out;
   }
-  &.button-size-large {
-    font-size: rem-calc(14px);
+  &.button-size-medium {
+    font-size: rem-calc(16px);
     padding: {
       top: rem-calc(12px);
       bottom: rem-calc(12px);
@@ -144,7 +144,7 @@ button {
       right: rem-calc(18px);
     }
   }
-  &.button-size-defalut {
+  &.button-size-small {
     font-size: rem-calc(14px);
     padding: {
       top: rem-calc(8px);
@@ -153,13 +153,13 @@ button {
       right: rem-calc(16px);
     }
   }
-  &.button-size-small {
-    font-size: rem-calc(12px);
+  &.button-size-mini {
+    font-size: rem-calc(14px);
     padding: {
-      top: rem-calc(4px);
-      bottom: rem-calc(4px);
-      left: rem-calc(12px);
-      right: rem-calc(12px);
+      top: rem-calc(6px);
+      bottom: rem-calc(6px);
+      left: rem-calc(16px);
+      right: rem-calc(16px);
     }
   }
   &.button-type-primary {
