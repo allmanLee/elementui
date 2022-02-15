@@ -252,12 +252,28 @@ export default {
     filter: grayscale(100);
   }
   &.checkbox-border {
-    padding: 12px;
-    padding-left: 38px;
+    padding: 16px;
+    padding-left: rem-calc(38px);
     border: solid 1px $color-info-tint;
     border-radius: 4px;
     &.checkbox-border-true {
       border: solid 1px $color-primary !important;
+    }
+    &.checkbox-size-medium {
+      @include input-size-style(
+        $font-size-medium,
+        $p-top-bottom-medium,
+        $p-left-right-medium
+      );
+      padding-left: rem-calc(38px);
+    }
+    &.checkbox-size-small {
+      @include input-size-style($font-size-small, 10px, $p-left-right-small);
+      padding-left: rem-calc(38px);
+    }
+    &.checkbox-size-mini {
+      @include input-size-style($font-size-mini, 8px, 10px);
+      padding-left: rem-calc(38px);
     }
   }
 
