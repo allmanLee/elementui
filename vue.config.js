@@ -1,19 +1,19 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-    configureWebpack: {
-        resolve: {
-            alias: {
-                '@': path.join(__dirname, 'src/')
-            }
-        }
+  configureWebpack: {
+    resolve: {
+      alias: {
+        "@": path.join(__dirname, "src/"),
+      },
     },
-    css: {
-        loaderOptions: {
-            sass: {
-                prependData: `@import "@/assets/function.scss";
-                @import "@/assets/defaultThema.scss";`
-            }
-        }
-    }
-}
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        prependData: `@import "@/assets/function.scss";
+                @import "@/assets/defaultThema.scss";`,
+      },
+    },
+  },
+};

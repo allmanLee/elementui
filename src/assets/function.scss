@@ -2,3 +2,14 @@
     $remSize: $size / 16px;
     @return #{$remSize}rem;
 }
+
+@mixin input-size-style($font, $top-bottom, $left-right) {
+    font-size: rem-calc($font);
+
+    padding: {
+        top: rem-calc($top-bottom);
+        bottom: rem-calc($top-bottom);
+        left: rem-calc($left-right);
+        right: rem-calc($left-right);
+    }
+}

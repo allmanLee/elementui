@@ -1,3 +1,5 @@
+$browser-context: 16;
+
 $color-primary: rgb(45, 129, 255);
 $color-primary-dark: rgb(27, 98, 204);
 $color-primary-tint: rgb(91, 154, 248);
@@ -18,3 +20,14 @@ $color-info: #909399;
 $color-info-dark: #6e6e70;
 $color-info-tint: #cccdcf;
 $color-info-background: none;
+
+//checkbox/button size에 따른 css
+$font-size-medium: 16px;
+$font-size-small: 14px;
+$font-size-mini: 14px;
+$p-top-bottom-medium: 12px;
+$p-top-bottom-small:8px;
+$p-top-bottom-mini:6px;
+$p-left-right-medium: 18px;
+$p-left-right-small: 16px;
+$p-left-right-mini: 16px;
