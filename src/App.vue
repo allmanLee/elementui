@@ -11,6 +11,7 @@
     </ul>
 
     <router-view />
+    <footer></footer>
   </div>
 </template>
 
@@ -36,5 +37,11 @@
       }
     }
   }
+}
+footer {
+  width: 100%;
+  height: 80px;
+  display: block;
+  padding: 20px;
 }
 </style>

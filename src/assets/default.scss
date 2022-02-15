@@ -13,8 +13,26 @@
   }
 }
 
+
 .app-checkbox-group {
-  #app-input {
-    margin-right: 20px;
+  .checkbox-button {
+    border-radius: 0 !important;
+    margin-left: -1px;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      input ~ label {
+        color: $color-primary;
+        transition: all 0.3s ease-in-out;
+      }
+    }
+    &:first-of-type {
+      border-start-start-radius: 4px  !important;;
+      border-end-start-radius:  4px  !important;;
+    }
+    &:last-of-type {
+      border-start-end-radius: 4px   !important;;
+      border-end-end-radius: 4px  !important;;
+    }
+
   }
 }

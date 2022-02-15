@@ -1,8 +1,8 @@
 <template>
   <div
-    ref="appCheckbox"
+    ref="appCheckboxButton"
     class="app-checkbox"
-    :class="`${cssNameDisabled} ${cssNameBorder} ${cssNameSize} ${cssNameIndeterminate}`"
+    :class="`${cssNameDisabled} checkbox-button ${cssNameSize} ${cssNameIndeterminate}`"
     @click="updatedCheckbox"
   >
     <input
@@ -12,7 +12,6 @@
       :checked="isChecked"
       @change="updatedCheckbox"
     />
-    <span class="checkmark"></span>
     <label for="checkbox" class="no-drag">
       <span>{{ atLabel }}</span>
       <slot v-if="!atLabel"></slot>
@@ -24,7 +23,7 @@
 import EventBus from "@/EventBus.js";
 
 export default {
-  name: "AppCheckbox",
+  name: "AppCheckboxButton",
   model: {
     prop: "modelValue",
     event: "change",
@@ -56,6 +55,7 @@ export default {
       this.custom = val;
       this.$emit("change", val);
       this.groupProp = this.$parent.$props;
+      this.classModifyBorder();
     });
     EventBus.$on(`${this.$parent.$options.componentId}-style`, () => {
       //최솟값 최대값이 나온경우
@@ -93,7 +93,7 @@ export default {
       return `checkbox-size-${propSize}`;
     },
     cssNameBorder: function () {
-      if (this.border === true) return "checkbox-border";
+      if (this.border === true) return "checkbox-button";
       else return "";
     },
     atLabel: function () {
@@ -113,18 +113,17 @@ export default {
   },
   methods: {
     classModifyBorder() {
-      const checkbox = this.$refs.appCheckbox;
-      if (checkbox.classList.contains("checkbox-border")) {
+      const checkbox = this.$refs.appCheckboxButton;
+      if (checkbox.classList.contains("checkbox-button")) {
         if (this.isChecked === true) {
-          checkbox.classList.add("checkbox-border-true");
+          checkbox.classList.add("checkbox-button-true");
         } else {
-          checkbox.classList.remove("checkbox-border-true");
+          checkbox.classList.remove("checkbox-button-true");
         }
       }
     },
     minMaxOption() {
       if (this.groupProp.max || this.groupProp.min) {
-        // EventBus.$emit(`${this.$parent.$options.componentId}`);
         EventBus.$emit(`${this.$parent.$options.componentId}-style`);
       }
     },
@@ -155,7 +154,6 @@ export default {
     },
     updatedCheckbox() {
       let isChecked = this.modelValue === "" ? this.modelValue : this.isChecked;
-
       if (this.$parent.modelValue) {
         if (!isChecked) {
           this.custom.push(this.label);
@@ -176,7 +174,6 @@ export default {
   display: inline-block;
   box-sizing: border-box;
   position: relative;
-  padding-left: 38px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -192,18 +189,6 @@ export default {
     width: 0px;
   }
 
-  .checkmark {
-    pointer-events: none;
-    position: absolute;
-    box-sizing: border-box;
-    left: 12px;
-    height: 21px;
-    width: 21px;
-    border-radius: 2px;
-    background-color: #eee;
-    border: 1px solid #ccc;
-  }
-
   label {
     pointer-events: none;
     cursor: pointer;
@@ -211,53 +196,25 @@ export default {
     line-height: 21px;
     vertical-align: middle;
   }
-
   input:checked ~ label {
-    color: $color-primary;
-  }
-  input:checked ~ span {
-    background: $color-primary;
-    border: 1px solid $color-primary;
-  }
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
-    content: "";
-    position: absolute;
-    display: block;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-  }
-
-  /* Show the checkmark when checked */
-  input:checked ~ span:after {
-    opacity: 1;
-  }
-  /* Style the checkmark/indicator */
-  span:after {
-    left: 6px;
-    top: 0px;
-    width: 4px;
-    height: 12px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+    color: white;
   }
 
   //checkbox Disabled
   &.checkbox-disabled {
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.4;
     filter: grayscale(100);
   }
-  &.checkbox-border {
+  &.checkbox-button {
     padding: 12px;
-    padding-left: 38px;
+    padding-left: 18px;
+    padding-right: 18px;
     border: solid 1px $color-info-tint;
     border-radius: 4px;
-    &.checkbox-border-true {
-      border: solid 1px $color-primary !important;
+    &.checkbox-button-true {
+      border: solid 1px $color-primary-tint !important;
+      background-color: $color-primary-tint !important;
     }
   }
 

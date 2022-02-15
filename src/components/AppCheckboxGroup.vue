@@ -55,7 +55,7 @@ export default {
   watch: {
     modelValue: {
       deep: true,
-      handler(val) {
+      handler() {
         this.groupCheckboxChange();
       },
     },
@@ -67,6 +67,7 @@ export default {
 
     groupCheckboxChange() {
       EventBus.$emit(this.$options.componentId, this.modelValue);
+      EventBus.$emit(`${this.$options.componentId}-style`);
     },
   },
 };

@@ -78,11 +78,28 @@
           </app-checkbox-group>
         </li>
       </ul>
+      <h3>Checkbox button</h3>
+      {{
+        checkedButtonsOption
+      }}
+      <ul class="checkbox-list">
+        <li>
+          <app-checkbox-group v-model="checkedButtonsOption">
+            <app-checkbox-button
+              v-for="(item, index) of buttonsOption"
+              :key="item"
+              :disabled="index == 3 || index == 2 ? true : false"
+              :label="item"
+            ></app-checkbox-button>
+          </app-checkbox-group>
+        </li>
+      </ul>
     </ul>
   </div>
 </template>
 <script>
 import AppCheckbox from "../components/AppCheckbox.vue";
+import AppCheckboxButton from "../components/AppCheckboxButton.vue";
 import AppCheckboxGroup from "../components/AppCheckboxGroup.vue";
 
 const cityOptions = ["Shanghai", "Beijing", "Guangzhou", "Shenzhen"];
@@ -100,11 +117,14 @@ export default {
       options: ["Option A", "Option B", "Option C", "Option D"],
       checkedCities: ["Shanghai", "Beijing"],
       isIndeterminate: true,
+      buttonsOption: ["asdf", "zxcv", "fasd", "vewvsa"],
+      checkedButtonsOption: ["asdf", "vewvsa"],
     };
   },
   components: {
     AppCheckbox,
     AppCheckboxGroup,
+    AppCheckboxButton,
   },
   methods: {
     handleCheckAllChange(val) {
@@ -133,9 +153,7 @@ h3 {
   margin-top: 60px;
   margin-bottom: 8px;
 }
-.app-checkbox {
-  margin: 16px;
-}
+
 .ui-container {
   ul.ui-list {
     padding-left: 0px;
