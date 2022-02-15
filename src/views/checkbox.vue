@@ -50,6 +50,21 @@
             >BorderBox</app-checkbox
           >
         </li>
+        <li>
+          <app-checkbox v-model="checked3" :border="true" size="medium"
+            >BorderBox</app-checkbox
+          >
+        </li>
+        <li>
+          <app-checkbox v-model="checked3" :border="true" size="small"
+            >BorderBox</app-checkbox
+          >
+        </li>
+        <li>
+          <app-checkbox v-model="checked3" :border="true" size="mini"
+            >BorderBox</app-checkbox
+          >
+        </li>
       </ul>
       <h3>Indeterminate</h3>
       {{
@@ -82,7 +97,7 @@
       {{
         checkedButtonsOption
       }}
-      <ul class="checkbox-list">
+      <ul class="checkbox-list checkbox-button-group">
         <li>
           <app-checkbox-group v-model="checkedButtonsOption">
             <app-checkbox-button
@@ -93,6 +108,41 @@
             ></app-checkbox-button>
           </app-checkbox-group>
         </li>
+      </ul>
+      <ul class="checkbox-list checkbox-button-group">
+        <li>
+          <app-checkbox-group v-model="checkedButtonsOption" size="small">
+            <app-checkbox-button
+              v-for="(item, index) of buttonsOption"
+              :key="item"
+              :disabled="index == 3 || index == 2 ? true : false"
+              :label="item"
+            ></app-checkbox-button>
+          </app-checkbox-group>
+        </li>
+      </ul>
+      <ul class="checkbox-list checkbox-button-group">
+        <li>
+          <app-checkbox-group v-model="checkedButtonsOption" size="mini">
+            <app-checkbox-button
+              v-for="(item, index) of buttonsOption"
+              :key="index"
+              :disabled="index == 3 || index == 2 ? true : false"
+              :label="item"
+            ></app-checkbox-button>
+          </app-checkbox-group>
+        </li>
+        <ul>
+          <li class="checkbox-list checkbox-button-group">
+            <app-checkbox-group v-model="checkedButtonsOption">
+              <app-checkbox-button
+                v-for="(item, index) of buttonsOption"
+                :key="index"
+                :label="item"
+              ></app-checkbox-button>
+            </app-checkbox-group>
+          </li>
+        </ul>
       </ul>
     </ul>
   </div>
@@ -168,5 +218,9 @@ h3 {
       }
     }
   }
+}
+
+.checkbox-button-group {
+  margin-top: 14px;
 }
 </style>
