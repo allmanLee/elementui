@@ -136,31 +136,25 @@ button {
     transition: all 0.02s ease-in-out;
   }
   &.button-size-medium {
-    font-size: rem-calc(16px);
-    padding: {
-      top: rem-calc(12px);
-      bottom: rem-calc(12px);
-      left: rem-calc(18px);
-      right: rem-calc(18px);
-    }
+    @include input-size-style(
+      $font-size-medium,
+      $p-top-bottom-medium,
+      $p-left-right-medium
+    );
   }
   &.button-size-small {
-    font-size: rem-calc(14px);
-    padding: {
-      top: rem-calc(8px);
-      bottom: rem-calc(8px);
-      left: rem-calc(16px);
-      right: rem-calc(16px);
-    }
+    @include input-size-style(
+      $font-size-small,
+      $p-top-bottom-small,
+      $p-left-right-small
+    );
   }
   &.button-size-mini {
-    font-size: rem-calc(14px);
-    padding: {
-      top: rem-calc(6px);
-      bottom: rem-calc(6px);
-      left: rem-calc(16px);
-      right: rem-calc(16px);
-    }
+    @include input-size-style(
+      $font-size-mini,
+      $p-top-bottom-mini,
+      $p-left-right-mini
+    );
   }
   &.button-type-primary {
     background: $color-primary;

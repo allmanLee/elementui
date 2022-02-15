@@ -1,8 +1,8 @@
 <template>
   <div
     ref="appCheckboxButton"
-    class="app-checkbox"
-    :class="`${cssNameDisabled} checkbox-button ${cssNameSize} ${cssNameIndeterminate}`"
+    class="app-checkbox checkbox-button"
+    :class="`${cssNameDisabled} ${cssNameIsTrue} ${cssNameSize}`"
     @click="updatedCheckbox"
   >
     <input
@@ -46,31 +46,17 @@ export default {
     modelValue: {
       deep: true,
       handler() {
-        this.classModifyBorder();
+        this.classModifyButton();
       },
     },
-  },
-  created() {
-    EventBus.$on(this.$parent.$options.componentId, (val) => {
-      this.custom = val;
-      this.$emit("change", val);
-      this.groupProp = this.$parent.$props;
-      this.classModifyBorder();
-    });
-    EventBus.$on(`${this.$parent.$options.componentId}-style`, () => {
-      //최솟값 최대값이 나온경우
-      this.minMaxActivea();
-    });
-  },
-  mounted() {
-    //border style 초기화
-    this.classModifyBorder();
   },
   data() {
     return {
       custom: [], //type: string or Arr,
       groupProp: {},
       customDisabled: false,
+      cssNameIsTrue: "",
+      cssNameSize: "",
     };
   },
   computed: {
@@ -83,15 +69,12 @@ export default {
         return "checkbox-disabled";
       else return "";
     },
-    cssNameIndeterminate: function () {
-      if (this.indeterminate === true) {
-        return `checkbox-indeterminate`;
-      } else return "";
-    },
-    cssNameSize: function () {
-      let propSize = this.size;
-      return `checkbox-size-${propSize}`;
-    },
+    //알수없는 에러 - 사이즈를 컴포넌트로 만들었을때 사이즈css 가있으면 비정삭 동작
+    // cssNameSize: function () {
+    //   if (this.groupProp.size === "small") {
+    //     return "checkbox-size-small";
+    //   } else return "";
+    // },
     cssNameBorder: function () {
       if (this.border === true) return "checkbox-button";
       else return "";
@@ -111,15 +94,35 @@ export default {
       }
     },
   },
+  created() {
+    EventBus.$on(this.$parent.$options.componentId, (val) => {
+      this.custom = val;
+      this.$emit("change", val);
+      this.groupProp = this.$parent.$props;
+    });
+    EventBus.$on(`${this.$parent.$options.componentId}-style`, () => {
+      //최솟값 최대값이 나온경우
+      this.minMaxActivea();
+      this.classModifyButton();
+    });
+  },
+  mounted() {
+    //border style 초기화
+    EventBus.$on(`${this.$parent.$options.componentId}-style`, () => {
+      //최솟값 최대값이 나온경우
+    });
+  },
   methods: {
-    classModifyBorder() {
+    classModifyButton() {
+      if (this.groupProp.size) {
+        this.cssNameSize = `checkbox-size-${this.groupProp.size}`;
+      }
+
       const checkbox = this.$refs.appCheckboxButton;
-      if (checkbox.classList.contains("checkbox-button")) {
-        if (this.isChecked === true) {
-          checkbox.classList.add("checkbox-button-true");
-        } else {
-          checkbox.classList.remove("checkbox-button-true");
-        }
+      if (this.isChecked === true) {
+        this.cssNameIsTrue = "checkbox-button-true";
+      } else {
+        this.cssNameIsTrue = "";
       }
     },
     minMaxOption() {
@@ -206,44 +209,31 @@ export default {
     opacity: 0.4;
     filter: grayscale(100);
   }
+
   &.checkbox-button {
-    padding: 12px;
-    padding-left: 18px;
-    padding-right: 18px;
+    padding: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
     border: solid 1px $color-info-tint;
     border-radius: 4px;
-    &.checkbox-button-true {
-      border: solid 1px $color-primary-tint !important;
-      background-color: $color-primary-tint !important;
+
+    &.checkbox-size-medium {
+      @include input-size-style(
+        $font-size-medium,
+        $p-top-bottom-medium,
+        $p-left-right-medium
+      );
+    }
+    &.checkbox-size-small {
+      @include input-size-style($font-size-small, 10px, $p-left-right-small);
+    }
+    &.checkbox-size-mini {
+      @include input-size-style($font-size-mini, 8px, 10px);
     }
   }
-
-  &.checkbox-indeterminate {
-    input ~ label {
-      color: $color-primary;
-    }
-    input ~ span {
-      background: $color-primary;
-      border: 1px solid $color-primary;
-    }
-    .checkmark:after {
-      content: "";
-      position: absolute;
-      display: block;
-      opacity: 1;
-      transition: all 0.2s ease-in-out;
-    }
-    span:after {
-      left: 5px;
-      top: 0px;
-      width: 6px;
-      height: 12px;
-      border: solid white;
-      border-width: 0 2px 0px 0;
-      -webkit-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
-      transform: rotate(90deg);
-    }
+  &.checkbox-button-true {
+    border: solid 1px $color-primary-tint;
+    background-color: $color-primary-tint;
   }
 }
 
