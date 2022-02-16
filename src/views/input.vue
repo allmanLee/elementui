@@ -3,10 +3,41 @@
     <ul class="ui-list">
       <li class="ui-list-item">
         <h1>Input</h1>
-        <h3>Basic usage</h3>
-        <ul class="button-list">
+
+        <ul class="input-list">
           <li>
-            <app-input placeholder="Please input"></app-input>
+            <h3>Basic usage</h3>
+            <p>{{ text1 }}</p>
+            <app-input v-model="text1" placeholder="Please input"></app-input>
+          </li>
+        </ul>
+
+        <ul class="input-list">
+          <li>
+            <h3>Disabled</h3>
+            <app-input :disabled="true" placeholder="Please input"></app-input>
+          </li>
+        </ul>
+        <ul class="input-list">
+          <li>
+            <h3>Clearable</h3>
+            <p>{{ text2 }}</p>
+            <app-input
+              v-model="text2"
+              :clearable="true"
+              placeholder="Please input"
+            ></app-input>
+          </li>
+        </ul>
+        <ul class="input-list">
+          <li>
+            <h3>Show password</h3>
+            <p>{{ text3 }}</p>
+            <app-input
+              v-model="text3"
+              :showPassword="true"
+              placeholder="Please input"
+            ></app-input>
           </li>
         </ul>
       </li>
@@ -16,38 +47,17 @@
 <script>
 import AppInput from "../components/AppInput.vue";
 
-const cityOptions = ["Shanghai", "Beijing", "Guangzhou", "Shenzhen"];
-
 export default {
   components: { AppInput },
   name: "ui-page-checkbox",
   data() {
     return {
-      checked: true,
-      checked2: true,
-      checked3: true,
-      checkAll: true,
-      checkList: ["Option B", "Option A"],
-      cities: [...cityOptions],
-      options: ["Option A", "Option B", "Option C", "Option D"],
-      checkedCities: ["Shanghai", "Beijing"],
-      isIndeterminate: true,
-      buttonsOption: ["asdf", "zxcv", "fasd", "vewvsa"],
-      checkedButtonsOption: ["asdf", "vewvsa"],
+      text1: "aaa",
+      text2: "text test",
+      text3: "",
     };
   },
-  methods: {
-    handleCheckAllChange(val) {
-      this.checkedCities = val ? [...cityOptions] : [];
-      this.isIndeterminate = false;
-    },
-    handleCheckedCitiesChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
-      this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cities.length;
-    },
-  },
+  methods: {},
 };
 </script>
 <style lang="scss" scoped>
@@ -71,16 +81,12 @@ h3 {
       list-style: none;
       list-style-type: none;
     }
-    .checkbox-list {
+    .input-list {
+      margin-top: 40px;
       li {
         display: inline-block;
-        margin-left: 14px;
       }
     }
   }
-}
-
-.checkbox-button-group {
-  margin-top: 14px;
 }
 </style>
