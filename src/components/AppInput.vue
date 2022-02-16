@@ -1,7 +1,7 @@
 <template>
   <div id="appInput">
     <input
-      mode="ios"
+      v-if="type != 'textarea'"
       ref="test"
       :type="isShowPassword ? 'password' : type"
       :placeholder="placeholder"
@@ -20,6 +20,18 @@
       @mouseover="canChange ? (isClearable = true) : ''"
       @mouseleave="canChange ? (isClearable = false) : ''"
     />
+    <textarea
+      v-if="type == 'textarea'"
+      ref="appInputTextarea"
+      :type="isShowPassword ? 'password' : type"
+      :rows="rows"
+      :placeholder="placeholder"
+      :value="value"
+      class="input-outline"
+      :autofocus="autofocus"
+      :disabled="disabled"
+      @input="((e) => changeValue(e), mixin_auto_resize)"
+    />
     <div
       v-if="clearable || showPassword"
       class="right-icon"
@@ -30,6 +42,7 @@
       @mouseover="canChange ? (isClearable = true) : ''"
       @mouseleave="canChange ? (isClearable = false) : ''"
     >
+      <!-- clear 기능, showPassword 기능의 아이콘 -->
       <fa-icon
         v-show="isClearable"
         class="icon"
@@ -47,6 +60,8 @@
     >
       <fa-icon class="icon" :icon="prefixIcon || suffixIcon"></fa-icon>
     </div>
+
+    <!-- 슬롯으로 추가한 아이콘 -->
     <div class="left-icon">
       <i class="icon">
         <slot name="prefix"></slot>
@@ -60,8 +75,10 @@
   </div>
 </template>
 <script>
+import mixinResize from "../mixins/autoResize.js";
 export default {
   name: "appInput",
+  mixins: [mixinResize],
   model: {
     props: "modelValue",
     method: "input",
@@ -98,7 +115,13 @@ export default {
       type: String,
     },
     suffixIcon: {
-      tye: String,
+      type: String,
+    },
+    rows: {
+      type: Number,
+    },
+    autosize: {
+      type: [Boolean, Object],
     },
   },
   data() {
@@ -168,7 +191,8 @@ export default {
   position: relative;
   width: auto;
   display: inline-block;
-  input {
+  input,
+  textarea {
     cursor: pointer;
     box-sizing: border-box;
     border-radius: 4px;
@@ -198,6 +222,16 @@ export default {
       background-color: #f5f5f5;
     }
     transition: all 0.3s ease-in-out;
+  }
+  textarea {
+    //height: unset;
+    min-height: 50px;
+    padding: {
+      top: 12px;
+      bottom: 12px;
+    }
+    font: inherit;
+    cursor: text;
   }
 
   //clear able

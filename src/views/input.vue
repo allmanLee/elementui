@@ -64,6 +64,16 @@
             </app-input>
           </li>
         </ul>
+        <ul class="input-list">
+          <li>
+            <h3>Textarea</h3>
+            <app-input
+              type="textarea"
+              :rows="6"
+              placeholder="Please input"
+            ></app-input>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
