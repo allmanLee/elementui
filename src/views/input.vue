@@ -40,6 +40,30 @@
             ></app-input>
           </li>
         </ul>
+        <ul class="input-list">
+          <li>
+            <h3>Icon input right/input</h3>
+
+            <p>slot과 바인딩으로 둘다 추가 가능한 아이콘 추가 기능입니다.</p>
+
+            <app-input
+              v-model="text4"
+              placeholder="Please input"
+              suffix-icon="fa-regular fa-face-grin-tongue-wink"
+            ></app-input>
+            <app-input
+              v-model="text4"
+              placeholder="Please input"
+              prefix-icon="fa-regular fa-face-kiss-beam"
+            ></app-input>
+            <app-input placeholder="이메일 (test@gmail.com)">
+              <fa-icon slot="suffix" icon="fa-regular fa-envelope"></fa-icon
+            ></app-input>
+            <app-input placeholder="카드번호 (0000-00000-0000)">
+              <fa-icon slot="prefix" icon="fa-regular fa-credit-card"></fa-icon>
+            </app-input>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
@@ -55,6 +79,7 @@ export default {
       text1: "aaa",
       text2: "text test",
       text3: "",
+      text4: "아이콘 인풋",
     };
   },
   methods: {},
@@ -72,6 +97,9 @@ h3 {
   font-weight: 400;
   margin-top: 60px;
   margin-bottom: 8px;
+}
+p {
+  margin-bottom: 32px;
 }
 
 .ui-container {

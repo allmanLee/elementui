@@ -1,6 +1,5 @@
 <template>
   <div id="appInput">
-    <slot name="prefix"></slot>
     <input
       mode="ios"
       ref="test"
@@ -9,8 +8,9 @@
       :value="value"
       class="input-outline"
       :class="{
-        'input-icon-right': clearable || showPassword,
-        'input-icon-left': false,
+        'input-icon-right': suffixIcon || clearable || showPassword,
+        'input-icon-left': prefixIcon,
+        ...slotDirection,
       }"
       :autofocus="autofocus"
       :disabled="disabled"
@@ -41,7 +41,22 @@
         icon="fa-regular fa-eye"
       ></fa-icon>
     </div>
-    <slot name="suffix"></slot>
+    <div
+      :class="{ 'left-icon': prefixIcon, 'right-icon': suffixIcon }"
+      v-if="prefixIcon || suffixIcon"
+    >
+      <fa-icon class="icon" :icon="prefixIcon || suffixIcon"></fa-icon>
+    </div>
+    <div class="left-icon">
+      <i class="icon">
+        <slot name="prefix"></slot>
+      </i>
+    </div>
+    <div class="right-icon">
+      <i class="icon">
+        <slot class="icon" name="suffix"></slot>
+      </i>
+    </div>
   </div>
 </template>
 <script>
@@ -79,6 +94,12 @@ export default {
       default: false,
       type: Boolean,
     },
+    prefixIcon: {
+      type: String,
+    },
+    suffixIcon: {
+      tye: String,
+    },
   },
   data() {
     return {
@@ -87,7 +108,21 @@ export default {
       isClearable: false,
       isShowPassword: this.showPassword,
       canChange: false,
+      slotDirection: "",
     };
+  },
+  mounted() {
+    this.canChange = this.clearable && this.changedValue.length > 0;
+    console.log(this.$slots);
+    const slotsName = Object.keys(this.$slots);
+
+    //슬롯으로 아이콘을 받았을 경우
+    if (slotsName.includes("prefix")) {
+      this.slotDirection = { ...this.slotDirection, "input-icon-left": true };
+    }
+    if (slotsName.includes("suffix")) {
+      this.slotDirection = { ...this.slotDirection, "input-icon-right": true };
+    }
   },
   watch: {
     changedValue: function (val) {
@@ -131,6 +166,8 @@ export default {
 //기본 인풋 스타일
 #appInput {
   position: relative;
+  width: auto;
+  display: inline-block;
   input {
     cursor: pointer;
     box-sizing: border-box;
@@ -164,7 +201,6 @@ export default {
   }
 
   //clear able
-
   .right-icon,
   .left-icon {
     display: inline-block;
