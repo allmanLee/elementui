@@ -17,6 +17,8 @@
       @input="(e) => changeValue(e)"
       @blur="clearable ? toggleClearButton(false) : ''"
       @focus="clearable ? toggleClearButton(true) : ''"
+      @mouseover="canChange ? (isClearable = true) : ''"
+      @mouseleave="canChange ? (isClearable = false) : ''"
     />
     <div
       v-if="clearable || showPassword"
@@ -25,6 +27,8 @@
       @click="
         clearable ? clearInput() : showPassword ? changeShowPassword() : ''
       "
+      @mouseover="canChange ? (isClearable = true) : ''"
+      @mouseleave="canChange ? (isClearable = false) : ''"
     >
       <fa-icon
         v-show="isClearable"
@@ -82,9 +86,14 @@ export default {
       test: null,
       isClearable: false,
       isShowPassword: this.showPassword,
+      canChange: false,
     };
   },
-  computed: {},
+  watch: {
+    changedValue: function (val) {
+      this.canChange = this.clearable && this.changedValue.length > 0;
+    },
+  },
   methods: {
     clearInput: function (val) {
       this.changedValue = "";
