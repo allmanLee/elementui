@@ -8,7 +8,12 @@
           <li>
             <h3>Basic usage</h3>
             <p>{{ text1 }}</p>
-            <app-input v-model="text1" placeholder="Please input"></app-input>
+            <app-input
+              v-model="text1"
+              type="number"
+              :step="6"
+              placeholder="Please input"
+            ></app-input>
           </li>
         </ul>
 
@@ -100,6 +105,25 @@
             <app-input size="medium" placeholder="Please input"></app-input>
             <app-input size="small" placeholder="Please input"></app-input>
             <app-input size="mini" placeholder="Please input"></app-input>
+          </li>
+        </ul>
+        <ul class="input-list">
+          <li>
+            <h3>Max/min length</h3>
+            <app-input
+              :type="'textarea'"
+              :minlength="3"
+              :maxlength="24"
+              placeholder="Please input"
+            ></app-input>
+          </li>
+          <li style="display: block">
+            <h3>Max/min length</h3>
+            <app-input
+              :minlength="3"
+              :maxlength="6"
+              placeholder="Please input"
+            ></app-input>
           </li>
         </ul>
       </li>

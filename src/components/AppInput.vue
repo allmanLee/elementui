@@ -3,6 +3,16 @@
     <input
       v-if="type != 'textarea'"
       ref="test"
+      :max="max"
+      :min="min"
+      :step="step"
+      :name="name"
+      :readonly="readonly"
+      :maxlength="maxlength"
+      :minlength="minlength"
+      :tabindex="tabindex"
+      :form="form"
+      :label="label"
       :type="isShowPassword ? 'password' : type"
       :placeholder="placeholder"
       :value="value"
@@ -27,6 +37,10 @@
       ref="appInputTextarea"
       :type="isShowPassword ? 'password' : type"
       :rows="rows"
+      :name="name"
+      :readonly="readonly"
+      :form="form"
+      :label="label"
       :placeholder="placeholder"
       :value="value"
       class="input-outline"
@@ -126,6 +140,19 @@ export default {
     autosize: {
       type: [Boolean, Object],
     },
+    maxlength: {
+      type: Number,
+    },
+    minlength: {
+      type: Number,
+    },
+    tabindex: {
+      type: String,
+    },
+    showWordLimit: {
+      type: Boolean,
+      default: false,
+    },
     size: {
       validator: (value) => ["medium", "mini", "small"].indexOf(value) != -1,
     },
@@ -133,6 +160,14 @@ export default {
       validator: (value) =>
         ["vertical", "horizontal", "both", "none"].indexOf(value) != -1,
     },
+
+    name: { type: String, default: "" },
+    readonly: { type: Boolean, default: false },
+    max: { default: "" },
+    min: { default: "" },
+    step: { default: "" },
+    form: { defalut: "" },
+    label: { defalut: "" },
   },
   data() {
     return {
@@ -152,7 +187,6 @@ export default {
   },
   mounted() {
     this.canChange = this.clearable && this.changedValue.length > 0;
-    console.log(this.$slots);
     const slotsName = Object.keys(this.$slots);
 
     //슬롯으로 아이콘을 받았을 경우
@@ -272,6 +306,7 @@ export default {
   }
   textarea {
     min-height: 42px;
+    resize: vertical;
     padding: {
       top: 12px;
       bottom: 12px;
