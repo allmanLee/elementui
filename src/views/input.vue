@@ -123,15 +123,36 @@
             ></app-input>
           </li>
         </ul>
+        <ul class="input-list">
+          <li>
+            <h3>Slot prepend</h3>
+            <app-input placeholder="검색주소" :type="'text'"
+              ><template v-slot:prepend>http://</template></app-input
+            >
+          </li>
+          <li style="display: block">
+            <h3>Slot append</h3>
+            <app-input placeholder="키워드" :type="'text'">
+              <template v-slot:append>추가</template>
+            </app-input>
+          </li>
+          <li style="display: block">
+            <h3>Button append</h3>
+            <app-input placeholder="키워드" :type="'text'" @blur="eventTest">
+              <app-button slot="append">추가</app-button>
+            </app-input>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
 </template>
 <script>
+import AppButton from "../components/AppButton.vue";
 import AppInput from "../components/AppInput.vue";
 
 export default {
-  components: { AppInput },
+  components: { AppInput, AppButton },
   name: "ui-page-checkbox",
   data() {
     return {
@@ -141,7 +162,11 @@ export default {
       text4: "아이콘 인풋",
     };
   },
-  methods: {},
+  methods: {
+    eventTest: function () {
+      console.log("dk");
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

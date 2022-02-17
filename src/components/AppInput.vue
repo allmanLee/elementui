@@ -1,5 +1,19 @@
 <template>
-  <div id="appInput">
+  <div
+    class="appInput"
+    :class="{
+      'input-group-container': showExtendPrepend || showExtendAppend,
+      'extend-group--prepend': showExtendPrepend,
+      'extend-group--append': showExtendAppend,
+    }"
+  >
+    <div
+      v-if="showExtendPrepend"
+      class="extend-container extend-prepend inner-tag-no"
+      :class="`extend-size-${size}`"
+    >
+      <slot name="prepend"></slot>
+    </div>
     <input
       v-if="type != 'textarea'"
       ref="test"
@@ -91,6 +105,8 @@
         <slot class="icon" name="suffix"></slot>
       </i>
     </div>
+
+    <!-- SHOW WORD LITMIT VIEW -->
     <div
       v-if="showWordLimit"
       class="wordlimit-container"
@@ -102,6 +118,13 @@
           : 'is-text'
       "
     ></div>
+
+    <div
+      v-if="showExtendAppend"
+      class="extend-container extend-append inner-tag-no"
+    >
+      <slot name="append"></slot>
+    </div>
   </div>
 </template>
 <script>
@@ -190,6 +213,8 @@ export default {
       isShowPassword: this.showPassword,
       canChange: false,
       slotDirection: "",
+      showExtendAppend: "",
+      showExtendPrepend: "",
       countValue: 0,
     };
   },
@@ -209,6 +234,12 @@ export default {
     }
     if (slotsName.includes("suffix")) {
       this.slotDirection = { ...this.slotDirection, "input-icon-right": true };
+    }
+    if (slotsName.includes("append")) {
+      this.showExtendAppend = true;
+    }
+    if (slotsName.includes("prepend")) {
+      this.showExtendPrepend = true;
     }
   },
   watch: {
@@ -259,14 +290,17 @@ export default {
 
 <style lang="scss" scope>
 //기본 인풋 스타일
-#appInput {
+.appInput {
   position: relative;
   width: auto;
   display: inline-block;
+  height: rem-calc(40px);
   line-height: 100%;
   input,
   textarea {
     cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
     box-sizing: border-box;
     border-radius: 4px;
     border: 1px solid #dbdbdb;
@@ -328,6 +362,7 @@ export default {
     height: 40px;
   }
   textarea {
+    font-size: rem-calc(16px) !important;
     min-height: 42px;
     resize: vertical;
     padding: {
@@ -338,6 +373,9 @@ export default {
     cursor: text;
     transition: opacity 0.3s, background-color 0.3s, border 0.3s,
       color 0.3s ease-in-out;
+  }
+  .icon {
+    font-size: 16px;
   }
 
   //clear able
@@ -402,6 +440,85 @@ export default {
     & p {
       pointer-events: none;
     }
+  }
+  &.input-group-container {
+    display: inline-table;
+    &.extend-group--append {
+      input {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+    }
+    &.extend-group--prepend {
+      input {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+      }
+    }
+  }
+  //확장슬롯
+  .extend-container {
+    position: relative;
+    display: table-cell;
+    cursor: pointer;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #dbdbdb;
+    background-color: white;
+    color: #9e9e9e;
+    margin-right: -1px;
+    margin-left: -1px;
+    width: 1px;
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    vertical-align: middle;
+    white-space: nowrap;
+    button {
+      display: inline-block;
+      all: unset;
+      padding-left: 16px;
+      padding-right: 16px;
+      height: 100%;
+      margin: -16px -20px;
+      &:hover {
+        border: 0px;
+        color: unset;
+        background: unset;
+      }
+    }
+    input {
+      display: inline-block;
+      box-sizing: border-box;
+      height: 40px;
+      color: unset;
+      padding: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+      background: unset;
+      border: 0px;
+      &:hover {
+        border: 0px;
+        color: black;
+        background: unset;
+      }
+      &:focus {
+        color: black;
+      }
+    }
+    &.extend-prepend {
+      border-right: 0px;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+    }
+    &.extend-append {
+      border-left: 0px;
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+  }
+  .inner-tag-no {
+    background: #f2f2f2;
   }
 }
 </style>
