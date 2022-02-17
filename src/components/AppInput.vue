@@ -40,9 +40,9 @@
       }"
       :autofocus="autofocus"
       :disabled="disabled"
-      @input="(e) => changeValue(e)"
-      @blur="clearable ? toggleClearButton(false) : ''"
-      @focus="clearable ? toggleClearButton(true) : ''"
+      @input="changeValue($event)"
+      @blur="handleBlur($event), clearable ? toggleClearButton(false) : ''"
+      @focus="clearable ? toggleClearButton(true) : '', handleFocus($event)"
       @mouseover="canChange ? (isClearable = true) : ''"
       @mouseleave="canChange ? (isClearable = false) : ''"
     />
@@ -118,7 +118,7 @@
           : 'is-text'
       "
     ></div>
-
+    {{ countValue }}
     <div
       v-if="showExtendAppend"
       class="extend-container extend-append inner-tag-no"
@@ -250,6 +250,14 @@ export default {
     },
   },
   methods: {
+    handleBlur: function (e) {
+      this.$emit("blur", e);
+      console.log("자식 blur");
+    },
+    handleFocus: function (e) {
+      this.$emit("focus", e);
+      console.log("자식 focus");
+    },
     clearInput: function () {
       this.changedValue = "";
       this.$emit("input", this.changedValue);

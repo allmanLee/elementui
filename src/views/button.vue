@@ -9,7 +9,7 @@
             <app-button>default</app-button>
           </li>
           <li v-for="item of size" :key="item">
-            <app-button :size="item">{{ item }}</app-button>
+            <app-button @click="eventClick" :size="item">{{ item }}</app-button>
           </li>
         </ul>
         <h3>Type</h3>
@@ -130,6 +130,11 @@ export default {
       size: ["medium", "small", "mini"],
       type: ["primary", "success", "warning", "danger", "info", "default"],
     };
+  },
+  methods: {
+    eventClick: function () {
+      console.log("click");
+    },
   },
   components: {
     AppButton,

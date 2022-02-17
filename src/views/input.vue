@@ -8,7 +8,13 @@
           <li>
             <h3>Basic usage</h3>
             <p>{{ text1 }}</p>
-            <app-input v-model="text1" placeholder="Please input"></app-input>
+            <app-input
+              v-model="text1"
+              @blur="eventBlur"
+              @focus="eventFocus"
+              @input="eventInput"
+              placeholder="Please input"
+            ></app-input>
           </li>
         </ul>
 
@@ -138,7 +144,7 @@
           </li>
           <li style="display: block">
             <h3>Button append</h3>
-            <app-input placeholder="키워드" :type="'text'" @blur="eventTest">
+            <app-input placeholder="키워드" :type="'text'">
               <app-button slot="append">추가</app-button>
             </app-input>
           </li>
@@ -163,8 +169,14 @@ export default {
     };
   },
   methods: {
-    eventTest: function () {
-      console.log("dk");
+    eventBlur: function () {
+      console.log("blur");
+    },
+    eventInput: function () {
+      console.log("input");
+    },
+    eventFocus: function () {
+      console.log("focus");
     },
   },
 };
