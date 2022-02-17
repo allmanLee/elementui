@@ -69,7 +69,7 @@
             <h3>Textarea</h3>
             <app-input
               type="textarea"
-              :rows="6"
+              :rows="1"
               placeholder="Please input"
             ></app-input>
           </li>

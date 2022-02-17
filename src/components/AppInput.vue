@@ -194,9 +194,9 @@ export default {
   input,
   textarea {
     cursor: pointer;
+    resize: vertical;
     box-sizing: border-box;
     border-radius: 4px;
-    height: rem-calc(40px);
     border: 1px solid #dbdbdb;
     padding-left: 16px;
     padding-right: 16px;
@@ -223,9 +223,11 @@ export default {
     }
     transition: all 0.3s ease-in-out;
   }
+  input {
+    height: 40px;
+  }
   textarea {
-    //height: unset;
-    min-height: 50px;
+    min-height: 42px;
     padding: {
       top: 12px;
       bottom: 12px;
