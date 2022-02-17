@@ -11,6 +11,7 @@
         'input-icon-right': suffixIcon || clearable || showPassword,
         'input-icon-left': prefixIcon,
         ...slotDirection,
+        [cssNameSize]: size ? true : false,
       }"
       :autofocus="autofocus"
       :disabled="disabled"
@@ -123,6 +124,9 @@ export default {
     autosize: {
       type: [Boolean, Object],
     },
+    size: {
+      validator: (value) => ["medium", "mini", "small"].indexOf(value) != -1,
+    },
   },
   data() {
     return {
@@ -133,6 +137,12 @@ export default {
       canChange: false,
       slotDirection: "",
     };
+  },
+  computed: {
+    cssNameSize: function () {
+      let propSize = this.size;
+      return `input-size-${propSize}`;
+    },
   },
   mounted() {
     this.canChange = this.clearable && this.changedValue.length > 0;
@@ -222,6 +232,20 @@ export default {
       background-color: #f5f5f5;
     }
     transition: all 0.3s ease-in-out;
+
+    //size
+    &.input-size-medium {
+      @include input-size-style(14px, 12px, 12px);
+      height: 38px;
+    }
+    &.input-size-small {
+      @include input-size-style(12px, 8px, 8px);
+      height: 36px;
+    }
+    &.input-size-mini {
+      @include input-size-style(12px, 8px, 8px);
+      height: 30px;
+    }
   }
   input {
     height: 40px;

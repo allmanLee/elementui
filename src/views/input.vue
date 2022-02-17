@@ -74,6 +74,15 @@
             ></app-input>
           </li>
         </ul>
+        <ul class="input-list">
+          <li>
+            <h3>Size</h3>
+            <app-input placeholder="Please input"></app-input>
+            <app-input size="medium" placeholder="Please input"></app-input>
+            <app-input size="small" placeholder="Please input"></app-input>
+            <app-input size="mini" placeholder="Please input"></app-input>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
