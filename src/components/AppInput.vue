@@ -234,6 +234,8 @@ export default {
     }
     font: inherit;
     cursor: text;
+    transition: opacity 0.3s, background-color 0.3s, border 0.3s,
+      color 0.3s ease-in-out;
   }
 
   //clear able
