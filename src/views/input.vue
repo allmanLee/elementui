@@ -8,12 +8,7 @@
           <li>
             <h3>Basic usage</h3>
             <p>{{ text1 }}</p>
-            <app-input
-              v-model="text1"
-              type="number"
-              :step="6"
-              placeholder="Please input"
-            ></app-input>
+            <app-input v-model="text1" placeholder="Please input"></app-input>
           </li>
         </ul>
 
@@ -113,16 +108,18 @@
             <app-input
               :type="'textarea'"
               :minlength="3"
-              :maxlength="24"
+              :maxlength="6"
               placeholder="Please input"
+              :showWordLimit="true"
             ></app-input>
           </li>
           <li style="display: block">
             <h3>Max/min length</h3>
             <app-input
               :minlength="3"
-              :maxlength="6"
+              :maxlength="3"
               placeholder="Please input"
+              :showWordLimit="true"
             ></app-input>
           </li>
         </ul>
@@ -138,7 +135,7 @@ export default {
   name: "ui-page-checkbox",
   data() {
     return {
-      text1: "aaa",
+      text1: "기본 인풋!",
       text2: "text test",
       text3: "",
       text4: "아이콘 인풋",

@@ -39,6 +39,8 @@
       :rows="rows"
       :name="name"
       :readonly="readonly"
+      :maxlength="maxlength"
+      :minlength="minlength"
       :form="form"
       :label="label"
       :placeholder="placeholder"
@@ -47,7 +49,7 @@
       :class="`input-resize-${resize}`"
       :autofocus="autofocus"
       :disabled="disabled"
-      @input="((e) => changeValue(e), mixin_auto_resize)"
+      @input="(e) => changeTextareaValue(e)"
     />
     <div
       v-if="clearable || showPassword"
@@ -89,6 +91,17 @@
         <slot class="icon" name="suffix"></slot>
       </i>
     </div>
+    <div
+      v-if="showWordLimit"
+      class="wordlimit-container"
+      :class="
+        type
+          ? type === 'text' || type === 'textarea'
+            ? `is-${type}`
+            : ''
+          : 'is-text'
+      "
+    ></div>
   </div>
 </template>
 <script>
@@ -177,6 +190,7 @@ export default {
       isShowPassword: this.showPassword,
       canChange: false,
       slotDirection: "",
+      countValue: 0,
     };
   },
   computed: {
@@ -198,8 +212,10 @@ export default {
     }
   },
   watch: {
-    changedValue: function () {
+    changedValue: function (val) {
       this.canChange = this.clearable && this.changedValue.length > 0;
+      this.countValue = val.length;
+      console.log(this.countValue);
     },
   },
   methods: {
@@ -218,14 +234,20 @@ export default {
         else this.isClearable = false;
       }
     },
+
+    //textarea에서 인풋 이벤트발생 실행 함수
+    changeTextareaValue(e) {
+      this.changeValue(e);
+      this.mixin_auto_resize(e);
+    },
+
+    //clear 버튼 보이게 & 안보이게
     toggleClearButton(value) {
-      console.log("toggled");
-      console.log(value);
-      console.log(this.changedValue);
       if (value == true && this.changedValue.length > 0) {
         this.isClearable = true;
       } else this.isClearable = false;
     },
+
     //패스워드 보기 기능
     changeShowPassword() {
       this.isShowPassword = !this.isShowPassword;
@@ -241,6 +263,7 @@ export default {
   position: relative;
   width: auto;
   display: inline-block;
+  line-height: 100%;
   input,
   textarea {
     cursor: pointer;
@@ -352,6 +375,33 @@ export default {
   }
   & input.input-icon-left {
     padding-left: 40px;
+  }
+
+  //word limit 스타일
+  .wordlimit-container {
+    pointer-events: none;
+    display: inline-block;
+    box-sizing: border-box;
+    position: absolute;
+    font-size: 12px;
+    color: #9e9e9e;
+    right: 8px;
+    top: 50%;
+    &.is-text {
+      display: inline-block;
+      transform: translateY(-50%);
+      vertical-align: center;
+    }
+    &.is-textarea {
+      top: unset;
+      bottom: 4px;
+
+      display: inline-block;
+      vertical-align: bottom;
+    }
+    & p {
+      pointer-events: none;
+    }
   }
 }
 </style>
