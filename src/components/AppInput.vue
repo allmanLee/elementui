@@ -62,12 +62,12 @@
     </div>
 
     <!-- 슬롯으로 추가한 아이콘 -->
-    <div class="left-icon">
+    <div v-if="slotDirection !== ''" class="left-icon">
       <i class="icon">
         <slot name="prefix"></slot>
       </i>
     </div>
-    <div class="right-icon">
+    <div v-if="slotDirection !== ''" class="right-icon">
       <i class="icon">
         <slot class="icon" name="suffix"></slot>
       </i>
@@ -148,12 +148,12 @@ export default {
     }
   },
   watch: {
-    changedValue: function (val) {
+    changedValue: function () {
       this.canChange = this.clearable && this.changedValue.length > 0;
     },
   },
   methods: {
-    clearInput: function (val) {
+    clearInput: function () {
       this.changedValue = "";
       this.$emit("input", this.changedValue);
     },
