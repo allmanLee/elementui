@@ -118,7 +118,6 @@
           : 'is-text'
       "
     ></div>
-    {{ countValue }}
     <div
       v-if="showExtendAppend"
       class="extend-container extend-append inner-tag-no"

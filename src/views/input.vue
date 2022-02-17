@@ -81,19 +81,19 @@
             ></app-input>
             <app-input
               type="textarea"
-              :rows="1"
+              :rows="3"
               resize="none"
               placeholder="Please input"
             ></app-input>
             <app-input
               type="textarea"
-              :rows="1"
+              :rows="6"
               resize="vertical"
               placeholder="Please input"
             ></app-input>
             <app-input
               type="textarea"
-              :rows="1"
+              :rows="6"
               resize="both"
               placeholder="Please input"
             ></app-input>

@@ -9,7 +9,7 @@
       ref="appCheckboxInput"
       type="checkbox"
       id="checkbox"
-      :checked="isChecked"
+      :checked="checked || isChecked"
       @change="updatedCheckbox"
     />
     <span class="checkmark"></span>
@@ -42,6 +42,13 @@ export default {
     trueLabel: { type: String },
     falseLabel: { type: String },
     indeterminate: { type: Boolean },
+    name: {
+      type: String,
+    },
+    checked: {
+      type: Boolean,
+      default: false,
+    },
   },
   watch: {
     modelValue: {
