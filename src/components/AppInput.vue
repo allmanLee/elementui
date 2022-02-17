@@ -12,6 +12,7 @@
         'input-icon-left': prefixIcon,
         ...slotDirection,
         [cssNameSize]: size ? true : false,
+        [`input-resize-${resize}`]: resize ? true : false,
       }"
       :autofocus="autofocus"
       :disabled="disabled"
@@ -29,6 +30,7 @@
       :placeholder="placeholder"
       :value="value"
       class="input-outline"
+      :class="`input-resize-${resize}`"
       :autofocus="autofocus"
       :disabled="disabled"
       @input="((e) => changeValue(e), mixin_auto_resize)"
@@ -127,6 +129,10 @@ export default {
     size: {
       validator: (value) => ["medium", "mini", "small"].indexOf(value) != -1,
     },
+    resize: {
+      validator: (value) =>
+        ["vertical", "horizontal", "both", "none"].indexOf(value) != -1,
+    },
   },
   data() {
     return {
@@ -204,7 +210,6 @@ export default {
   input,
   textarea {
     cursor: pointer;
-    resize: vertical;
     box-sizing: border-box;
     border-radius: 4px;
     border: 1px solid #dbdbdb;
@@ -245,6 +250,21 @@ export default {
     &.input-size-mini {
       @include input-size-style(12px, 8px, 8px);
       height: 30px;
+    }
+
+    //resize
+    &.input-resize-none {
+      resize: none;
+    }
+    &.input-resize-both {
+      resize: both;
+    }
+
+    &.input-resize-horizontal {
+      resize: horizontal;
+    }
+    &.input-resize-vertical {
+      resize: vertical;
     }
   }
   input {

@@ -66,10 +66,29 @@
         </ul>
         <ul class="input-list">
           <li>
-            <h3>Textarea</h3>
+            <h3>Textarea / Resize</h3>
             <app-input
               type="textarea"
               :rows="1"
+              resize="horizontal"
+              placeholder="Please input"
+            ></app-input>
+            <app-input
+              type="textarea"
+              :rows="1"
+              resize="none"
+              placeholder="Please input"
+            ></app-input>
+            <app-input
+              type="textarea"
+              :rows="1"
+              resize="vertical"
+              placeholder="Please input"
+            ></app-input>
+            <app-input
+              type="textarea"
+              :rows="1"
+              resize="both"
               placeholder="Please input"
             ></app-input>
           </li>
