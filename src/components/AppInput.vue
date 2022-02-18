@@ -117,7 +117,9 @@
             : ''
           : 'is-text'
       "
-    ></div>
+    >
+      {{ countValue }}/{{ maxlength }}
+    </div>
     <div
       v-if="showExtendAppend"
       class="extend-container extend-append inner-tag-no"
@@ -298,7 +300,6 @@ export default {
   position: relative;
   width: auto;
   display: inline-block;
-  height: rem-calc(40px);
   line-height: 100%;
   input,
   textarea {
@@ -435,11 +436,9 @@ export default {
       vertical-align: center;
     }
     &.is-textarea {
+      display: block;
       top: unset;
       bottom: 4px;
-
-      display: inline-block;
-      vertical-align: bottom;
     }
     & p {
       pointer-events: none;

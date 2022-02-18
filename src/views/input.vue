@@ -115,6 +115,7 @@
               :type="'textarea'"
               :minlength="3"
               :maxlength="6"
+              v-model="limit1"
               placeholder="Please input"
               :showWordLimit="true"
             ></app-input>
@@ -124,6 +125,7 @@
             <app-input
               :minlength="3"
               :maxlength="3"
+              v-model="limit2"
               placeholder="Please input"
               :showWordLimit="true"
             ></app-input>
@@ -166,6 +168,8 @@ export default {
       text2: "text test",
       text3: "",
       text4: "아이콘 인풋",
+      limit1: "",
+      limit2: "",
     };
   },
   methods: {
