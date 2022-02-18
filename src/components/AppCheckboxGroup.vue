@@ -29,7 +29,9 @@ export default {
     },
     textColor: {
       type: String,
-      default: "#ffffff",
+    },
+    fill: {
+      type: String,
     },
     disabled: {
       type: Boolean,

@@ -111,7 +111,12 @@
       </ul>
       <ul class="checkbox-list checkbox-button-group">
         <li>
-          <app-checkbox-group v-model="checkedButtonsOption" size="small">
+          <app-checkbox-group
+            v-model="checkedButtonsOption"
+            textColor="#53e2e8"
+            fill="#f69e9e"
+            size="small"
+          >
             <app-checkbox-button
               v-for="(item, index) of buttonsOption"
               :key="item"

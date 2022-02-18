@@ -13,7 +13,7 @@
       :checked="checked || isChecked"
       @change="updatedCheckbox"
     />
-    <label for="checkbox" class="no-drag">
+    <label for="checkbox" class="no-drag" ref="appCheckboxButtonLabel">
       <span>{{ atLabel }}</span>
       <slot v-if="!atLabel"></slot>
     </label>
@@ -120,11 +120,32 @@ export default {
         this.cssNameSize = `checkbox-size-${this.groupProp.size}`;
       }
 
+      //체크박스 그룹 'textColor' prop이 있을경우 버튼 컬러 및 텍스트 컬러 수정
+      if (this.groupProp.textColor) {
+        if (this.isChecked === true) {
+          this.$refs.appCheckboxButtonLabel.style.color =
+            this.groupProp.textColor;
+        } else {
+          this.$refs.appCheckboxButtonLabel.style.color = "";
+        }
+      }
+      //체크박스 그룹 'fill' prop이 있을경우 버튼 컬러 및 텍스트 컬러 수정
+      if (this.groupProp.fill) {
+        if (this.isChecked === true) {
+          this.$refs.appCheckboxButton.style.border = this.groupProp.fill;
+          this.$refs.appCheckboxButton.style.backgroundColor =
+            this.groupProp.fill;
+        } else {
+          this.$refs.appCheckboxButton.style.border = "";
+          this.$refs.appCheckboxButton.style.backgroundColor = "";
+        }
+      }
+
       const checkbox = this.$refs.appCheckboxButton;
       if (this.isChecked === true) {
         this.cssNameIsTrue = "checkbox-button-true";
       } else {
-        this.cssNameIsTrue = "";
+        this.cssNameIsTrue = undefined;
       }
     },
     minMaxOption() {
