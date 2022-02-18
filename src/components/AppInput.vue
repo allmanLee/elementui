@@ -245,17 +245,14 @@ export default {
     changedValue: function (val) {
       this.canChange = this.clearable && this.changedValue.length > 0;
       this.countValue = val.length;
-      console.log(this.countValue);
     },
   },
   methods: {
     handleBlur: function (e) {
       this.$emit("blur", e);
-      console.log("자식 blur");
     },
     handleFocus: function (e) {
       this.$emit("focus", e);
-      console.log("자식 focus");
     },
     clearInput: function () {
       this.changedValue = "";

@@ -77,12 +77,6 @@ export default {
         return "checkbox-disabled";
       else return "";
     },
-    //알수없는 에러 - 사이즈를 컴포넌트로 만들었을때 사이즈css 가있으면 비정삭 동작
-    // cssNameSize: function () {
-    //   if (this.groupProp.size === "small") {
-    //     return "checkbox-size-small";
-    //   } else return "";
-    // },
     cssNameBorder: function () {
       if (this.border === true) return "checkbox-button";
       else return "";
